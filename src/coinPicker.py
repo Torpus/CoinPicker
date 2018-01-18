@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import argparse,requests,os.path,platform
 from termcolor import colored
 from subprocess import call

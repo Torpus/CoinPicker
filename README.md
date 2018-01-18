@@ -5,8 +5,8 @@ Determine most profitable cryptocurrency
 ## Usage
 
 ```bash
-python coinPicker.py --coin Ethereum --file ./approvedCoinFile
-``` 
+python src/coinPicker.py --coin Ethereum --file ./approvedCoinFile
+```
 ## Docker
 
 ```bash

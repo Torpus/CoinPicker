@@ -1,3 +1,4 @@
 argparse
+pytest
 requests
 termcolor
