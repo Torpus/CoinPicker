@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-import requests
-import argparse,os.path,platform
+import argparse,requests,os.path,platform
 from termcolor import colored
 from subprocess import call
 
