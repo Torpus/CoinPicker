@@ -5,7 +5,7 @@ Determine most profitable cryptocurrency
 ## Usage
 
 ```bash
-python MinerControl.py --coin Ethereum --file ./approvedCoinFile
+python coinPicker.py --coin Ethereum --file ./approvedCoinFile
 ``` 
 
 ## Requirements
