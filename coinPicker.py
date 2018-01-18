@@ -40,12 +40,9 @@ def fetchCoinJson(coinToMine,approvedCoinFile):
             print(exe)
 
 if __name__ == '__main__':
-    try:
-        args = parser()
-        #convert first arg character to uppercase
-        coin = args.coin.title()
-        coinFile = args.file
-        checkFileExists(coinFile)
-        fetchCoinJson(coin,coinFile)
-    except:
-        print (colored('An error has occurred', 'red'))
+    args = parser()
+    #convert first arg character to uppercase
+    coin = args.coin.title()
+    coinFile = args.file
+    checkFileExists(coinFile)
+    fetchCoinJson(coin,coinFile)
