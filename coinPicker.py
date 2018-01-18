@@ -36,8 +36,8 @@ def fetchCoinJson(coinToMine,approvedCoinFile):
         print(coin + ' = ' + str(rJson[coin]['profitability']) + ' :: ' + coinToMine + ' = ' + str(rJson[coinToMine]['profitability']))
         if rJson[coin]['profitability'] > rJson[coinToMine]['profitability']:
             coinToMine = coin
-            exe = './' + coinToMine + '.sh'
-            print(exe)
+    exe = './' + coinToMine + '.sh'
+    print(exe)
 
 if __name__ == '__main__':
     args = parser()
