@@ -17,13 +17,19 @@ docker run --rm -it torpus/coinPicker -c Ethereum -f approvedCoinList
 To make executable, add to shell's .rc file(`~/.bashrc`):
 
 ```bash
-alias 'coinPicker'='docker run --rm -it torpus/coinPicker -c Ethereum -f approvedCoinList'
+alias 'coinPicker'='docker run --rm -it torpus/coinPicker -f approvedCoinList'
 ```
 
 Then reload your shell by running:
 
 ```bash
 source ~/.bashrc
+```
+
+Then use by:
+
+```
+coinPicker -c Ethereum
 ```
 
 ## Requirements
