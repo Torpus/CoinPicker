@@ -34,11 +34,12 @@ def fetchCoinJson(coinToMine,approvedCoinFile):
         exit(1)
     rJson = r.json()['coins']
     coinList = open(approvedCoinFile, 'r')
-    for coin in coinList:
+    for coin in coinList: 
         coin = coin.strip()
-        print(coin + ' = ' + str(rJson[coin]['profitability']) + ' :: ' + coinToMine + ' = ' + str(rJson[coinToMine]['profitability']))
-        if rJson[coin]['profitability'] > rJson[coinToMine]['profitability']:
-            coinToMine = coin
+        if coin != coinToMine:
+            print(coin + ' = ' + str(rJson[coin]['profitability']) + ' :: ' + coinToMine + ' = ' + str(rJson[coinToMine]['profitability']))
+            if rJson[coin]['profitability'] > rJson[coinToMine]['profitability']:
+                coinToMine = coin
     exe = './' + coinToMine + '.sh'
     print(exe)
 
