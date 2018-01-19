@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 import argparse,requests,os.path,platform
 from termcolor import colored
-from subprocess import call
+from subprocess import Popen
+from psutil import Process
 
 def determineOS():
     osType = platform.platform()
@@ -26,7 +27,7 @@ def checkFileExists(file):
          print(colored('Path to file is invalid.', 'red'))
          exit(1)
 
-def fetchCoinJson(coinToMine,approvedCoinFile):
+def pickCoin(coinToMine,approvedCoinFile):
     try:
         r = requests.get('http://whattomine.com/coins.json')
     except:
@@ -34,7 +35,7 @@ def fetchCoinJson(coinToMine,approvedCoinFile):
         exit(1)
     rJson = r.json()['coins']
     coinList = open(approvedCoinFile, 'r')
-    for coin in coinList: 
+    for coin in coinList:
         coin = coin.strip()
         if coin != coinToMine:
             print(coin + ' = ' + str(rJson[coin]['profitability']) + ' :: ' + coinToMine + ' = ' + str(rJson[coinToMine]['profitability']))
@@ -42,6 +43,15 @@ def fetchCoinJson(coinToMine,approvedCoinFile):
                 coinToMine = coin
     exe = './' + coinToMine + '.sh'
     print(exe)
+    prevCoinFile = open("prevCoin", "w")
+    if str(prevCoinFile.readline).strip() == '':
+        if str(prevCoinFile.readline).strip() != coinToMine:
+            prevPid = str(prevCoinFile.readline).strip()
+            p = Process(prevPid)
+            print("Killing pid: " + prevPid)
+            Popen.kill(p)
+    pid = Popen(exe).pid
+    prevCoinFile.write(coinToMine + "\n" + str(pid))
 
 if __name__ == '__main__':
     args = parser()
@@ -49,4 +59,4 @@ if __name__ == '__main__':
     coin = upperFirst(args.coin)
     coinFile = args.file
     checkFileExists(coinFile)
-    fetchCoinJson(coin,coinFile)
+    pickCoin(coin,coinFile)
