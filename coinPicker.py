@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import argparse,requests,os.path,platform
+import argparse,requests,os,platform,sys
 from termcolor import colored
 from subprocess import Popen
 from psutil import Process
@@ -43,15 +43,22 @@ def pickCoin(coinToMine,approvedCoinFile):
                 coinToMine = coin
     exe = './' + coinToMine + '.bat'
     print(exe)
-    prevCoinFile = open("prevCoin", "w")
-    if str(prevCoinFile.readline).strip() == '':
-        if str(prevCoinFile.readline).strip() != coinToMine:
-            prevPid = str(prevCoinFile.readline).strip()
-            p = Process(prevPid)
-            print("Killing pid: " + prevPid)
-            Popen.kill(p)
-    pid = Popen(exe).pid
-    prevCoinFile.write(coinToMine + "\n" + str(pid))
+    with open("prevCoin", "w+") as prevCoinFile:
+        prevCoin = prevCoinFile.readline()
+        prevCoin = prevCoin.strip()
+        if prevCoin:
+            if prevCoin != coinToMine:
+                prevPid = prevCoinFile.readline().strip()
+                print(prevPid)
+                p = Process(prevPid)
+                print("Killing pid: " + prevPid)
+                Popen.kill(p)
+        prevCoinFile.close()
+        myProc = Popen([exe], shell=True)
+        pid = myProc.pid
+        prevCoinFile = open("prevCoin", "w")
+        prevCoinFile.write(coinToMine + "\n" + str(pid))
+        prevCoinFile.close()
 
 if __name__ == '__main__':
     args = parser()
