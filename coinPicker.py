@@ -41,7 +41,7 @@ def pickCoin(coinToMine,approvedCoinFile):
             print(coin + ' = ' + str(rJson[coin]['profitability']) + ' :: ' + coinToMine + ' = ' + str(rJson[coinToMine]['profitability']))
             if rJson[coin]['profitability'] > rJson[coinToMine]['profitability']:
                 coinToMine = coin
-    exe = './' + coinToMine + '.sh'
+    exe = './' + coinToMine + '.bat'
     print(exe)
     prevCoinFile = open("prevCoin", "w")
     if str(prevCoinFile.readline).strip() == '':
