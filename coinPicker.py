@@ -1,8 +1,7 @@
 #!/usr/bin/env python
-import argparse,requests,os,platform,sys
+import argparse,requests,os,platform,sys,psutil
 from termcolor import colored
 from subprocess import Popen
-from psutil import Process
 
 def determineOS():
     osType = platform.platform()
@@ -43,16 +42,17 @@ def pickCoin(coinToMine,approvedCoinFile):
                 coinToMine = coin
     exe = './' + coinToMine + '.bat'
     print(exe)
-    with open("prevCoin", "w+") as prevCoinFile:
+    with open("prevCoin", "r") as prevCoinFile:
         prevCoin = prevCoinFile.readline()
         prevCoin = prevCoin.strip()
         if prevCoin:
             if prevCoin != coinToMine:
                 prevPid = prevCoinFile.readline().strip()
                 print(prevPid)
-                p = Process(prevPid)
-                print("Killing pid: " + prevPid)
-                Popen.kill(p)
+                if psutil.pid_exists(prevPid):
+                    p = psutil.Process(prevPid)
+                    print("Killing pid: " + prevPid)
+                    Popen.kill(p)
         prevCoinFile.close()
         myProc = Popen([exe], shell=True)
         pid = myProc.pid
