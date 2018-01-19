@@ -3,15 +3,6 @@ import argparse,requests,os.path,platform
 from termcolor import colored
 from subprocess import call
 
-# def determineOS():
-#     osType = platform.platform()
-#     if 'Windows' in osType:
-#         print('windows')
-#     elif 'Darwin' in osType:
-#         print('mac')
-#     else:
-#         print('linux')
-
 def parser():
     parser = argparse.ArgumentParser(description='coinPicker')
     parser.add_argument('-c','--coin', help='Which Coin to Mine', required=True)
@@ -42,5 +33,9 @@ if __name__ == '__main__':
     #convert first arg character to uppercase
     coin = args.coin.title()
     coinFile = args.file
-    checkFileExists(coinFile)
+    if checkFileExists(coinFile):
+        pass
+    else:
+        print(colored('Path to file in invalid', 'red'))
+        exit(1)
     fetchCoinJson(coin,coinFile)
