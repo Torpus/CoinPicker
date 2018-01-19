@@ -12,6 +12,9 @@ def determineOS():
     else:
         print('linux')
 
+def upperFirst(x):
+    return x[0].upper() + x[1:]
+
 def parser():
     parser = argparse.ArgumentParser(description='coinPicker')
     parser.add_argument('-c','--coin', help='Which Coin to Mine', required=True)
@@ -42,7 +45,7 @@ def fetchCoinJson(coinToMine,approvedCoinFile):
 if __name__ == '__main__':
     args = parser()
     #convert first arg character to uppercase
-    coin = args.coin.title()
+    coin = upperFirst(args.coin)
     coinFile = args.file
     checkFileExists(coinFile)
     fetchCoinJson(coin,coinFile)
