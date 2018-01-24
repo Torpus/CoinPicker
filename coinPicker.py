@@ -41,29 +41,22 @@ def pickCoin(coinToMine,approvedCoinFile):
             if rJson[coin]['profitability'] > rJson[coinToMine]['profitability']:
                 coinToMine = coin
     exe = './' + coinToMine + '.bat'
-    print(exe)
-    with open("prevCoin", "r") as prevCoinFile:
-        prevCoin = prevCoinFile.readline()
-        prevCoin = prevCoin.strip()
-        if prevCoin:
-            if prevCoin != coinToMine:
-                prevPid = prevCoinFile.readline().strip()
-                print(prevPid)
-                if psutil.pid_exists(prevPid):
-                    p = psutil.Process(prevPid)
-                    print("Killing pid: " + prevPid)
-                    Popen.kill(p)
-        prevCoinFile.close()
-        myProc = Popen([exe], shell=True)
-        pid = myProc.pid
-        prevCoinFile = open("prevCoin", "w")
-        prevCoinFile.write(coinToMine + "\n" + str(pid))
-        prevCoinFile.close()
+    return exe
+
+def invokeMiner(exe):
+    try:
+        #check previous instance if there is one
+        #kill old instance if not same else done
+    except:
+        #remove exe from rotation and send email
+        print(colored(exe + ' failed to start.  ' + exe + ' removed from rotation and an email has been sent.')
 
 if __name__ == '__main__':
-    args = parser()
-    #convert first arg character to uppercase
-    coin = upperFirst(args.coin)
-    coinFile = args.file
-    checkFileExists(coinFile)
-    pickCoin(coin,coinFile)
+    while(true):
+        args = parser()
+        #convert first arg character to uppercase
+        coin = upperFirst(args.coin)
+        coinFile = args.file
+        checkFileExists(coinFile)
+        pickCoin(coin,coinFile)
+        sleep(300)
