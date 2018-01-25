@@ -2,18 +2,19 @@
 import argparse,requests,os,platform,sys,psutil
 from termcolor import colored
 from subprocess import Popen
+from time import sleep
 
 def determineOS():
 	osType = platform.platform()
-	os = ''
+	osName = ''
 	if 'Windows' in osType:
-		os = 'windows'
+		osName = 'windows'
 	elif 'Darwin' in osType:
 		print('don\'t mine with mac')
-		exit(1)
+		osName = 'linux'
 	else:
-		os = 'linux'
-	return os
+		osName = 'linux'
+	return osName
 
 def upperFirst(x):
 	return x[0].upper() + x[1:]
@@ -45,30 +46,38 @@ def pickCoin(coinToMine,approvedCoinFile):
 				coinToMine = coin
 	return coinToMine
 
-def invokeMiner(os, newCoin, oldcoin):
+def invokeMiner(osName, coin):
+	exe = ''
+	pid = ''
 	try:
 		if os == 'windows':
 			#invoke batch file
-			
-		else if os == 'linux':
-			pid = Popen.
-    except:
+			exe = coin + ".bat"
+		elif os == 'linux':
+			exe = './' + coin + '.sh'
+			pid = Popen(exe).pid
+	except:
 		#remove exe from rotation, bypass sleep, and send email notification
-		print(colored(exe + ' failed to start.  ' + exe + ' removed from rotation and an email has been sent.')
+		print(colored(exe + ' failed to start.  ' + exe + ' removed from rotation and an email has been sent.'))
+	return pid
 
 if __name__ == '__main__':
-	os = determineOS()
+	osName = determineOS()
 	args = parser()
 	#convert first arg character to uppercase
 	coin = upperFirst(args.coin)
 	coinFile = args.file
 	checkFileExists(coinFile)
-	while(true):
+	pid = ''
+	oldCoin = ''
+	while(True):
 		newCoin = pickCoin(coin,coinFile)
-		if oldCoin:
+		if pid:
 			if newCoin != oldCoin:
-				killMiner(oldCoin)
-				invokeMiner(os, newCoin)
+			#	killMiner(pid)
+				print(newCoin + " mining started under pid: " + pid)
+			#	pid = invokeMiner(os, newCoin)
 		else:
-			invokeMiner(os, newCoin)
-		sleep(300)
+			#pid = invokeMiner(osName, newCoin)
+			print(newCoin + " mining started under pid: " + pid)
+		sleep(15)
