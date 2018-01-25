@@ -5,12 +5,14 @@ from subprocess import Popen
 
 def determineOS():
     osType = platform.platform()
+    os = ''
     if 'Windows' in osType:
-        print('windows')
+        os = 'windows'
     elif 'Darwin' in osType:
-        print('mac')
+        print('mac, don\'t mine with mac')
     else:
-        print('linux')
+        os = 'linux'
+    return os
 
 def upperFirst(x):
     return x[0].upper() + x[1:]
@@ -40,23 +42,31 @@ def pickCoin(coinToMine,approvedCoinFile):
             print(coin + ' = ' + str(rJson[coin]['profitability']) + ' :: ' + coinToMine + ' = ' + str(rJson[coinToMine]['profitability']))
             if rJson[coin]['profitability'] > rJson[coinToMine]['profitability']:
                 coinToMine = coin
-    exe = './' + coinToMine + '.bat'
-    return exe
+    return coinToMine
 
-def invokeMiner(exe):
+def invokeMiner(os, newCoin, oldcoin):
     try:
-        #check previous instance if there is one
-        #kill old instance if not same else done
+        if os == 'windows':
+            #invoke batch file
+        else if os == 'linux':
+            #invoke shell script
     except:
-        #remove exe from rotation and send email
+        #remove exe from rotation, bypass sleep, and send email notification
         print(colored(exe + ' failed to start.  ' + exe + ' removed from rotation and an email has been sent.')
 
 if __name__ == '__main__':
+    os = determineOS()
+    args = parser()
+    #convert first arg character to uppercase
+    coin = upperFirst(args.coin)
+    coinFile = args.file
+    checkFileExists(coinFile)
     while(true):
-        args = parser()
-        #convert first arg character to uppercase
-        coin = upperFirst(args.coin)
-        coinFile = args.file
-        checkFileExists(coinFile)
-        pickCoin(coin,coinFile)
+        newCoin = pickCoin(coin,coinFile)
+        if oldCoin:
+            if newCoin != oldCoin:
+                killMiner(oldCoin)
+                invokeMiner(os, newCoin)
+        else:
+            invokeMiner(os, newCoin)
         sleep(300)
