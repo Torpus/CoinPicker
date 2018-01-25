@@ -1,6 +1,6 @@
 # CoinPicker
 
-Determine most profitable cryptocurrency
+Determine currently most profitable cryptocurrency to mine
 
 ## Usage
 
