@@ -49,7 +49,7 @@ def invokeMiner(os, newCoin, oldcoin):
         if os == 'windows':
             #invoke batch file
         else if os == 'linux':
-            #invoke shell script
+            pid = Popen.
     except:
         #remove exe from rotation, bypass sleep, and send email notification
         print(colored(exe + ' failed to start.  ' + exe + ' removed from rotation and an email has been sent.')
